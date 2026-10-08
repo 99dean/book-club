@@ -1,5 +1,5 @@
 import { html, useState } from '../vendor/preact-htm.js';
-import { Avatar, Cover, Icon, Links, Sheet, Stars, Toggle } from './ui.js';
+import { Avatar, ConfirmButton, Cover, Icon, Links, Sheet, Stars, Toggle } from './ui.js';
 import { clamp, getItLinks, toLocalInput } from './util.js';
 import { KINDS, useBookSearch } from './screens.js';
 
@@ -151,13 +151,12 @@ function BookSheet({ d, act, book: initial }) {
       <button class="btn primary wide" disabled=${!!d.current} onClick=${async () => { await act.startBook(book); act.close(); act.setTab('reading'); }}>
         Start reading this</button>
       ${d.current && html`<p class="hint center">Finish ${d.current.title} first.</p>`}
-      ${book.suggested_by === d.me.id && html`<button class="link-btn danger center-block"
-        onClick=${async () => { if (confirm('Remove this book?')) { await act.removeBook(book); act.close(); } }}>Remove from Up next</button>`}
+      ${book.suggested_by === d.me.id && html`<${ConfirmButton} class="link-btn danger center-block" label="Remove from Up next"
+        confirmLabel="Tap again to remove" onConfirm=${async () => { await act.removeBook(book); act.close(); }} />`}
     </div>`}
 
-    ${book.status === 'current' && html`<button class="btn primary wide"
-      onClick=${async () => { if (confirm(`Finished ${book.title}? It moves to the shelf.`)) { await act.finishBook(book); act.close(); act.setTab('shelf'); } }}>
-      We finished it</button>`}
+    ${book.status === 'current' && html`<${ConfirmButton} class="btn primary wide" label="We finished it" confirmLabel="Tap again to move it to the shelf"
+      onConfirm=${async () => { await act.finishBook(book); act.close(); act.setTab('shelf'); }} />`}
 
     ${book.status === 'finished' && html`<div class="stack">
       <h3 class="sheet-sub">Your rating</h3>
@@ -259,6 +258,6 @@ function Settings({ d, act }) {
 
     <h3 class="sheet-sub">Extras</h3>
     <button class="btn ghost wide" onClick=${() => { act.close(); act.setView('birthday-preview'); }}>Preview the birthday surprise</button>
-    ${act.mode === 'demo' && html`<button class="btn ghost wide danger" onClick=${() => confirm('Erase demo data and start over?') && act.resetDemo()}>Reset demo data</button>`}
+    ${act.mode === 'demo' && html`<${ConfirmButton} class="btn ghost wide danger" label="Reset demo data" confirmLabel="Tap again to erase everything" onConfirm=${act.resetDemo} />`}
   <//>`;
 }

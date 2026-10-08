@@ -1,5 +1,5 @@
 import { html, useState, useEffect } from '../vendor/preact-htm.js';
-import { Avatar, Cover, Icon, Links, Stars } from './ui.js';
+import { Avatar, ConfirmButton, Cover, Icon, Links, Stars } from './ui.js';
 import { daysUntil, getItLinks, meetupDay, meetupTimes, relTime, searchBooks } from './util.js';
 
 const greeting = () => {
@@ -201,7 +201,7 @@ function PostCard({ d, act, post, compact }) {
           <input class="input" placeholder="Reply…" aria-label="Reply" value=${reply} onInput=${(e) => setReply(e.currentTarget.value)} />
           <button class="btn dark small-btn" disabled=${!reply.trim()}>Send</button>
         </form>
-        ${post.member_id === d.me.id && html`<button class="link-btn danger" onClick=${() => confirm('Delete this post?') && act.deletePost(post)}>Delete</button>`}`}
+        ${post.member_id === d.me.id && html`<${ConfirmButton} class="link-btn danger" label="Delete" confirmLabel="Tap again to delete" onConfirm=${() => act.deletePost(post)} />`}`}
   </article>`;
 }
 

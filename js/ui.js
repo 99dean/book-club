@@ -1,5 +1,5 @@
 // Small reusable UI pieces.
-import { html, useEffect } from '../vendor/preact-htm.js';
+import { html, useEffect, useState } from '../vendor/preact-htm.js';
 
 const COVER_TONES = ['#E8DCC6', '#A9C2E4', '#9CC3A8', '#F0A87A', '#C9B6E4', '#E4C3A9'];
 const tone = (s) => COVER_TONES[[...s].reduce((a, c) => a + c.charCodeAt(0), 0) % COVER_TONES.length];
@@ -84,4 +84,17 @@ export function Links({ links }) {
   return html`<div class="chips">
     ${links.map((l) => html`<a class="chip" href=${l.href} target="_blank" rel="noopener">${l.label}</a>`)}
   </div>`;
+}
+
+// A button that asks "are you sure?" by needing a second tap (no browser dialogs).
+export function ConfirmButton({ class: cls, label, confirmLabel, onConfirm }) {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    if (!armed) return;
+    const t = setTimeout(() => setArmed(false), 4000);
+    return () => clearTimeout(t);
+  }, [armed]);
+  return html`<button type="button" class=${`${cls} ${armed ? 'armed' : ''}`} aria-live="polite"
+    onClick=${(e) => { e.stopPropagation(); if (armed) { setArmed(false); onConfirm(); } else setArmed(true); }}>
+    ${armed ? confirmLabel : label}</button>`;
 }
