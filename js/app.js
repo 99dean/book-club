@@ -86,6 +86,13 @@ function App() {
     return off;
   }, []);
 
+  // Runs before any club data is loaded, so it can't live on `act` (which needs the data).
+  const join = useCallback(async (code) => {
+    const ok = await store.join(code);
+    if (ok) { await reload(); setPhase('ready'); }
+    return ok;
+  }, []);
+
   const d = useMemo(() => (state ? derive(state, meId) : null), [state, meId]);
 
   // Invite links can carry ?me=name so each person skips "Who's reading?" the first time.
@@ -127,11 +134,6 @@ function App() {
     setView,
     pickMe: (id) => { lsSet(ME_KEY, id); setMeId(id); setTab('reading'); },
     signOut: () => { lsSet(ME_KEY, null); setMeId(null); setSheet(null); setToast(null); },
-    join: async (code) => {
-      const ok = await store.join(code);
-      if (ok) { await reload(); setPhase('ready'); }
-      return ok;
-    },
     resetDemo: guard(async () => { await store.reset(); lsSet(ME_KEY, null); setMeId(null); setSheet(null); }),
 
     startBook: guard(async (book) => {
@@ -206,7 +208,7 @@ function App() {
       <button class="btn primary" onClick=${boot}>Try again</button>
     </div>`;
   }
-  if (phase === 'gate') return html`<${Gate} join=${(c) => act.join(c)} />`;
+  if (phase === 'gate') return html`<${Gate} join=${join} />`;
   if (!d) return null;
   if (!d.me) return html`<${WhoAreYou} d=${d} act=${act} />`;
 
