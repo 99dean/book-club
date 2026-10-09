@@ -7,7 +7,7 @@ export const MEMBERS = [
   { id: 'm-jen', name: 'Jen', color: '#C2577A', city: 'Philly', tz: 'America/New_York', is_guest: false, active: true },
   { id: 'm-dean', name: 'Dean', color: '#3B6FB6', city: 'DC', tz: 'America/New_York', is_guest: false, active: true },
   { id: 'm-alec', name: 'Alec', color: '#7A5BB0', city: 'London', tz: 'Europe/London', is_guest: false, active: true },
-  { id: 'm-alexa', name: 'Alexa', color: '#2F8F6B', city: 'DC', tz: 'America/New_York', is_guest: true, active: false },
+  { id: 'm-alexa', name: 'Alexa', color: '#2F8F6B', city: 'DC', tz: 'America/New_York', is_guest: false, active: true },
   { id: 'm-kyleigh', name: 'Kyleigh', color: '#B0563A', city: 'London', tz: 'Europe/London', is_guest: true, active: false },
 ].map((m) => ({ ...m, prefs: { notify: { ...notify }, library: '' } }));
 

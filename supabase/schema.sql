@@ -171,9 +171,12 @@ insert into public.members (id, name, color, city, tz, is_guest, active, prefs) 
   ('m-jen', 'Jen', '#C2577A', 'Philly', 'America/New_York', false, true, '{}'),
   ('m-dean', 'Dean', '#3B6FB6', 'DC', 'America/New_York', false, true, '{}'),
   ('m-alec', 'Alec', '#7A5BB0', 'London', 'Europe/London', false, true, '{}'),
-  ('m-alexa', 'Alexa', '#2F8F6B', 'DC', 'America/New_York', true, false, '{}'),
+  ('m-alexa', 'Alexa', '#2F8F6B', 'DC', 'America/New_York', false, true, '{}'),
   ('m-kyleigh', 'Kyleigh', '#B0563A', 'London', 'Europe/London', true, false, '{}')
 on conflict (id) do nothing;
+
+-- Alexa became a core member after the first setup; this keeps older databases in step.
+update public.members set is_guest = false, active = true where id = 'm-alexa' and is_guest;
 
 update public.members
 set prefs = '{"notify": {"questions": true, "replies": true, "new_book": true, "meetup": true, "passed": true}, "library": ""}'

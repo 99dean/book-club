@@ -1,6 +1,6 @@
 # The Book Club
 
-A private book club app for Joe, Jen, Dean and Alec (with Alexa and Kyleigh as optional guests).
+A private book club app for Joe, Jen, Dean, Alec and Alexa (with Kyleigh as an optional guest).
 It installs on any phone from the browser (Share → Add to Home Screen) and opens full screen like an app.
 
 ## What's in it
