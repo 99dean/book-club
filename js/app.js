@@ -197,8 +197,11 @@ function App() {
   if (phase === 'loading') return html`<div class="splash"><div class="splash-mark">∞</div></div>`;
   if (phase === 'error') {
     return html`<div class="center-screen">
-      <h1>Can't reach the book club</h1>
-      <p class="muted">Check your Wi-Fi or signal, then try again.</p>
+      ${/anonymous sign-ins/i.test(error)
+        ? html`<h1>Almost there</h1>
+          <p class="muted">The club's database needs one switch turned on: in Supabase, Authentication → Sign In / Providers → Allow anonymous sign-ins.</p>`
+        : html`<h1>Can't reach the book club</h1>
+          <p class="muted">Check your Wi-Fi or signal, then try again.</p>`}
       <p class="small muted">${error}</p>
       <button class="btn primary" onClick=${boot}>Try again</button>
     </div>`;
