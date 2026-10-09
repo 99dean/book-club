@@ -45,15 +45,18 @@ Plain HTML/CSS/JavaScript with no build step, so it can be edited and deployed f
 
 ### 2. Hosting
 
-Any static host works. Because the repo is private, the free options are:
+Any static host works, for example:
 
 - **Netlify or Cloudflare Pages:** connect the GitHub repo and deploy the branch. No build command, publish directory `/`.
-- **GitHub Pages:** free if the repo is public (or on GitHub Pro). Settings → Pages → deploy from branch, folder `/`.
+- **GitHub Pages (what we use):** the repo is public. Settings → Pages → Build and deployment → Source: *Deploy from a branch*,
+  branch `claude/family-book-club-app-6ysbx9`, folder `/ (root)`. The site is https://99dean.github.io/book-club/
 
 ### 3. Invite the family
 
-Send each person the link with the code attached, e.g. `https://your-site/?code=your-family-code`.
-They open it in Safari, tap Share → **Add to Home Screen**, then tap their name.
+Send each person the link with the code and their name attached, e.g. `https://your-site/?code=your-family-code&me=jen`.
+The `me=` part skips the "Who's reading?" screen on their first visit.
+They open it in Safari, tap Share → **Add to Home Screen** right from that page (so the home-screen app keeps the code),
+then open it from the home screen and tap their name.
 Send Joe's link last, so the surprise is waiting for him.
 
 ## Demo mode

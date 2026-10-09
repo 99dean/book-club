@@ -56,6 +56,7 @@ function App() {
   const [error, setError] = useState('');
   const [state, setState] = useState(null);
   const [meId, setMeId] = useState(lsGet(ME_KEY));
+  const invitedAs = new URLSearchParams(location.search).get('me')?.toLowerCase();
   const [tab, setTab] = useState('reading');
   const [sheet, setSheet] = useState(null);
   const [view, setView] = useState(null);
@@ -86,6 +87,13 @@ function App() {
   }, []);
 
   const d = useMemo(() => (state ? derive(state, meId) : null), [state, meId]);
+
+  // Invite links can carry ?me=name so each person skips "Who's reading?" the first time.
+  useEffect(() => {
+    if (!state || meId || !invitedAs) return;
+    const m = state.members.find((x) => x.active && x.name.toLowerCase() === invitedAs);
+    if (m) { lsSet(ME_KEY, m.id); setMeId(m.id); }
+  }, [state]);
 
   // Fill in covers and page counts for books added without them (once per session).
   useEffect(() => {
@@ -189,7 +197,9 @@ function App() {
   if (phase === 'loading') return html`<div class="splash"><div class="splash-mark">∞</div></div>`;
   if (phase === 'error') {
     return html`<div class="center-screen">
-      <h1>Something went wrong</h1><p class="muted">${error}</p>
+      <h1>Can't reach the book club</h1>
+      <p class="muted">Check your Wi-Fi or signal, then try again.</p>
+      <p class="small muted">${error}</p>
       <button class="btn primary" onClick=${boot}>Try again</button>
     </div>`;
   }

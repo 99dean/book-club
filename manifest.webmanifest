@@ -2,7 +2,6 @@
   "name": "The Book Club",
   "short_name": "Book Club",
   "description": "Our family book club",
-  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#0F1F1A",
